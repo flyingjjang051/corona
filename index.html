@@ -29,28 +29,31 @@
       <div class="corona">
         <canvas id="coronaChart"> </canvas>
       </div>
-      <div class="calendar">
-        <div class="header">
-          <button class="prevMonth"><span class="material-icons"> chevron_left </span></button>
-          <div class="monthBox">
-            <span class="year">2022</span>
-            <span class="month">07</span>
+      <div class="calendarBox">
+        <input type="text" id="txtCalendar" placeholder="select date" />
+        <div class="calendar">
+          <div class="header">
+            <button class="prevMonth"><span class="material-icons"> chevron_left </span></button>
+            <div class="monthBox">
+              <span class="year">2022</span>
+              <span class="month">07</span>
+            </div>
+            <button class="nextMonth"><span class="material-icons"> chevron_right </span></button>
           </div>
-          <button class="nextMonth"><span class="material-icons"> chevron_right </span></button>
-        </div>
-        <div class="days">
-          <ul>
-            <li class="sun"><span>sun</span></li>
-            <li><span>mon</span></li>
-            <li><span>tue</span></li>
-            <li><span>wed</span></li>
-            <li><span>thu</span></li>
-            <li><span>fri</span></li>
-            <li class="sat"><span>sat</span></li>
-          </ul>
-        </div>
-        <div class="dates">
-          <ul></ul>
+          <div class="days">
+            <ul>
+              <li class="sun"><span>sun</span></li>
+              <li><span>mon</span></li>
+              <li><span>tue</span></li>
+              <li><span>wed</span></li>
+              <li><span>thu</span></li>
+              <li><span>fri</span></li>
+              <li class="sat"><span>sat</span></li>
+            </ul>
+          </div>
+          <div class="dates">
+            <ul></ul>
+          </div>
         </div>
       </div>
     </main>
@@ -60,6 +63,12 @@
     let currentNow = new Date();
     const btnPrevMonth = $(".calendar .prevMonth");
     const btnNextMonth = $(".calendar .nextMonth");
+    const txtCalendar = $(".calendarBox #txtCalendar");
+    const calendar = $(".calendarBox .calendar");
+    txtCalendar.on("click", function () {
+      calendar.toggle();
+    });
+
     const makeCalendar = function (year, month) {
       const datesUL = $(".calendar .dates ul");
       const txtYear = $(".calendar .header .year");
@@ -120,7 +129,9 @@
     $(".calendar").on("click", ".dates li", function () {
       console.log(typeof $(this).data("month"));
       const selectedDate = $(this).data("year") + addZero($(this).data("month")) + addZero($(this).data("date"));
-      console.log(selectedDate);
+      txtCalendar.val($(this).data("year") + " / " + addZero($(this).data("month")) + " / " + addZero($(this).data("date")));
+      $(this).addClass("selected").siblings().removeClass("selected");
+      calendar.hide();
       loadCorona(selectedDate);
     });
 
@@ -193,6 +204,6 @@
       return num < 10 ? "0" + num : "" + num;
     };
     //console.log(addZero("9"));
-    //loadCorona(now.getFullYear() + addZero(now.getMonth() + 1) + addZero(now.getDate()));
+    loadCorona(now.getFullYear() + addZero(now.getMonth() + 1) + addZero(now.getDate()));
   </script>
 </html>
