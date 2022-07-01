@@ -34,50 +34,13 @@ a {
 }
 
 #main {
-  padding: 150px 100px 50px;
-}
-#main #search {
-  width: 800px;
-  background-color: #fff;
-  margin: 0 auto 50px;
   display: flex;
-  padding: 15px 50px;
-  border-radius: 100px;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
-#main #search input {
-  flex-grow: 1;
-  height: 50px;
-  box-sizing: border-box;
-  border: none;
-  outline: none;
-  font-size: 20px;
-}
-#main #search button {
-  width: 50px;
-  height: 50px;
-  border: none;
-  outline: none;
-  background: none;
-}
-#main #search button span {
-  font-size: 48px;
-}
-#main .list {
-  display: flex;
-  flex-wrap: wrap;
-}
-#main .list li {
-  padding: 10px;
-  background-color: #fff;
-  margin: 10px;
-  width: calc(20% - 20px);
-  box-sizing: border-box;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
-}
-#main .list li img {
-  width: 100%;
-}
-#main .list li .date {
-  margin-top: 10px;
+
+.corona {
+  width: 1200px;
+  height: 600px;
 }
