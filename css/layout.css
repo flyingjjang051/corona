@@ -44,3 +44,61 @@ a {
   width: 1200px;
   height: 600px;
 }
+
+.calendar {
+  position: absolute;
+  top: 100px;
+  right: 100px;
+  width: 300px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+.calendar .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.calendar .header button {
+  border: none;
+  outline: none;
+  background: none;
+}
+.calendar .header .month {
+  font-weight: 700;
+}
+.calendar .days ul,
+.calendar .dates ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+.calendar .days ul li,
+.calendar .dates ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(14.2857142857% - 4px);
+  position: relative;
+  margin: 2px;
+}
+.calendar .days ul li:before,
+.calendar .dates ul li:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.calendar .days ul li span,
+.calendar .dates ul li span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  background-color: #000;
+  color: #fff;
+}

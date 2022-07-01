@@ -29,6 +29,62 @@
       <div class="corona">
         <canvas id="coronaChart"> </canvas>
       </div>
+      <div class="calendar">
+        <div class="header">
+          <button><span class="material-icons"> chevron_left </span></button>
+          <div class="monthBox">
+            <span class="year">2022</span>
+            <span class="month">07</span>
+          </div>
+          <button><span class="material-icons"> chevron_right </span></button>
+        </div>
+        <div class="days">
+          <ul>
+            <li class="sun"><span>sun</span></li>
+            <li><span>mon</span></li>
+            <li><span>tue</span></li>
+            <li><span>wed</span></li>
+            <li><span>thu</span></li>
+            <li><span>fri</span></li>
+            <li class="sat"><span>sat</span></li>
+          </ul>
+        </div>
+        <div class="dates">
+          <ul>
+            <li><span>01</span></li>
+            <li><span>02</span></li>
+            <li><span>03</span></li>
+            <li><span>04</span></li>
+            <li><span>05</span></li>
+            <li><span>06</span></li>
+            <li><span>07</span></li>
+            <li><span>08</span></li>
+            <li><span>09</span></li>
+            <li><span>10</span></li>
+            <li><span>11</span></li>
+            <li><span>12</span></li>
+            <li><span>13</span></li>
+            <li><span>14</span></li>
+            <li><span>15</span></li>
+            <li><span>16</span></li>
+            <li><span>17</span></li>
+            <li><span>18</span></li>
+            <li><span>19</span></li>
+            <li><span>20</span></li>
+            <li><span>21</span></li>
+            <li><span>22</span></li>
+            <li><span>23</span></li>
+            <li><span>24</span></li>
+            <li><span>25</span></li>
+            <li><span>26</span></li>
+            <li><span>27</span></li>
+            <li><span>28</span></li>
+            <li><span>29</span></li>
+            <li><span>30</span></li>
+            <li><span>31</span></li>
+          </ul>
+        </div>
+      </div>
     </main>
   </body>
   <script>
@@ -36,8 +92,10 @@
     $.ajax({
       url: "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson",
       data: {
-        ServiceKey: "Wnus4QpirWGI56CfvzMWDIDHMRL/mEF/qTl9gwVNbRggLYTGPFIdwBy0L51B+27d5QRbLanNmIAxPwNvl7dKPA==",
+        ServiceKey: "oCofLR08owUixq82kUyXp6Ts1jg3/+AqNlpJYlvQrmfHjuiMhQzY+XueXxwUiNfRe6tjN29GwTvy7Y+yymi1vg==",
         _type: "json",
+        startCreateDt: "20220115",
+        endCreateDt: "20220115",
       },
     }).done(function (response) {
       console.log(response.response.body.items.item);
@@ -70,9 +128,14 @@
               display: false,
             },
             title: {
-              display: true,
+              display: false,
               text: "CORONA 발생현황",
-              size: 24,
+              color: "#fff",
+              font: {
+                family: "궁서",
+                size: 18,
+                color: "#fff",
+              },
             },
           },
           scales: {
