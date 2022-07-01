@@ -50,44 +50,50 @@
           </ul>
         </div>
         <div class="dates">
-          <ul>
-            <li><span>01</span></li>
-            <li><span>02</span></li>
-            <li><span>03</span></li>
-            <li><span>04</span></li>
-            <li><span>05</span></li>
-            <li><span>06</span></li>
-            <li><span>07</span></li>
-            <li><span>08</span></li>
-            <li><span>09</span></li>
-            <li><span>10</span></li>
-            <li><span>11</span></li>
-            <li><span>12</span></li>
-            <li><span>13</span></li>
-            <li><span>14</span></li>
-            <li><span>15</span></li>
-            <li><span>16</span></li>
-            <li><span>17</span></li>
-            <li><span>18</span></li>
-            <li><span>19</span></li>
-            <li><span>20</span></li>
-            <li><span>21</span></li>
-            <li><span>22</span></li>
-            <li><span>23</span></li>
-            <li><span>24</span></li>
-            <li><span>25</span></li>
-            <li><span>26</span></li>
-            <li><span>27</span></li>
-            <li><span>28</span></li>
-            <li><span>29</span></li>
-            <li><span>30</span></li>
-            <li><span>31</span></li>
-          </ul>
+          <ul></ul>
         </div>
       </div>
     </main>
   </body>
   <script>
+    const datesUL = $(".calendar .dates ul");
+    const now = new Date();
+    const leapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const notLeapYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    let selectedYear = null;
+
+    const firstDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    // 달력 만들때 달의 1일을 기준으로 한다.
+    let tempHtml = "";
+    let count = 0;
+
+    if (firstDate.getFullYear() % 4 === 0) {
+      if (firstDate.getFullYear() % 100 === 0) {
+        selectedYear = notLeapYear;
+      } else {
+        selectedYear = leapYear;
+      }
+    } else {
+      selectedYear = notLeapYear;
+    }
+    if (firstDate.getFullYear() % 400 === 0) {
+      selectedYear = leapYear;
+    }
+
+    for (let i = 0; i < 42; i++) {
+      if (i < firstDate.getDay()) {
+        tempHtml += `<li class="blank"><span></span></li>`;
+      } else {
+        count++;
+        tempHtml += `<li><span>${count}</span></li>`;
+      }
+      if (count >= selectedYear[firstDate.getMonth()]) {
+        break;
+      }
+    }
+    datesUL.html(tempHtml);
+
     const ctx = document.querySelector("#coronaChart").getContext("2d");
     $.ajax({
       url: "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson",

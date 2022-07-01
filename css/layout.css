@@ -68,10 +68,22 @@ a {
 .calendar .header .month {
   font-weight: 700;
 }
+.calendar .days {
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+.calendar .days .sun span {
+  background-color: rgb(200, 0, 0);
+}
+.calendar .days .sat span {
+  background-color: rgb(0, 118, 214);
+}
 .calendar .days ul,
 .calendar .dates ul {
   display: flex;
   flex-wrap: wrap;
+  font-size: 14px;
+  font-weight: 500;
 }
 .calendar .days ul li,
 .calendar .dates ul li {
@@ -81,6 +93,11 @@ a {
   width: calc(14.2857142857% - 4px);
   position: relative;
   margin: 2px;
+}
+.calendar .days ul li.blank span,
+.calendar .dates ul li.blank span {
+  background-color: transparent;
+  pointer-events: none;
 }
 .calendar .days ul li:before,
 .calendar .dates ul li:before {
@@ -101,4 +118,5 @@ a {
   border-radius: 100px;
   background-color: #000;
   color: #fff;
+  line-height: 1.25;
 }
