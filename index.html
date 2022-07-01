@@ -31,12 +31,12 @@
       </div>
       <div class="calendar">
         <div class="header">
-          <button><span class="material-icons"> chevron_left </span></button>
+          <button class="prevMonth"><span class="material-icons"> chevron_left </span></button>
           <div class="monthBox">
             <span class="year">2022</span>
             <span class="month">07</span>
           </div>
-          <button><span class="material-icons"> chevron_right </span></button>
+          <button class="nextMonth"><span class="material-icons"> chevron_right </span></button>
         </div>
         <div class="days">
           <ul>
@@ -56,43 +56,67 @@
     </main>
   </body>
   <script>
-    const datesUL = $(".calendar .dates ul");
     const now = new Date();
-    const leapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    const notLeapYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let currentNow = new Date();
+    const btnPrevMonth = $(".calendar .prevMonth");
+    const btnNextMonth = $(".calendar .nextMonth");
+    const makeCalendar = function (year, month) {
+      const datesUL = $(".calendar .dates ul");
+      const txtYear = $(".calendar .header .year");
+      const txtMonth = $(".calendar .header .month");
+      const firstDate = new Date(year, month, 1);
+      // 달력 만들때 달의 1일을 기준으로 한다.
+      const leapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      const notLeapYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-    let selectedYear = null;
+      let selectedYear = null;
+      let tempHtml = "";
+      let count = 0;
 
-    const firstDate = new Date(now.getFullYear(), now.getMonth(), 1);
-    // 달력 만들때 달의 1일을 기준으로 한다.
-    let tempHtml = "";
-    let count = 0;
-
-    if (firstDate.getFullYear() % 4 === 0) {
-      if (firstDate.getFullYear() % 100 === 0) {
-        selectedYear = notLeapYear;
+      if (firstDate.getFullYear() % 4 === 0) {
+        if (firstDate.getFullYear() % 100 === 0) {
+          selectedYear = notLeapYear;
+        } else {
+          selectedYear = leapYear;
+        }
       } else {
+        selectedYear = notLeapYear;
+      }
+      if (firstDate.getFullYear() % 400 === 0) {
         selectedYear = leapYear;
       }
-    } else {
-      selectedYear = notLeapYear;
-    }
-    if (firstDate.getFullYear() % 400 === 0) {
-      selectedYear = leapYear;
-    }
+      const tempMonth = firstDate.getMonth() + 1;
+      txtYear.text(firstDate.getFullYear());
+      txtMonth.text(tempMonth < 10 ? "0" + tempMonth : tempMonth);
+      // 년월일이 같으면 오늘....  now는 오늘 날짜 기준이라는게 힌트....
+      for (let i = 0; i < 42; i++) {
+        if (i < firstDate.getDay()) {
+          tempHtml += `<li class="blank"><span></span></li>`;
+        } else {
+          count++;
+          if (now.getFullYear() === firstDate.getFullYear() && now.getMonth() === firstDate.getMonth() && now.getDate() === count) {
+            tempHtml += `<li class="today"><span>${count}</span></li>`;
+          } else {
+            tempHtml += `<li><span>${count}</span></li>`;
+          }
+        }
+        if (count >= selectedYear[firstDate.getMonth()]) {
+          break;
+        }
+      }
+      datesUL.html(tempHtml);
+      gsap.from(".calendar .dates li", { scale: 0, ease: "elastic", duration: 1.6, stagger: { each: 0.02, from: "start" } });
+    };
 
-    for (let i = 0; i < 42; i++) {
-      if (i < firstDate.getDay()) {
-        tempHtml += `<li class="blank"><span></span></li>`;
-      } else {
-        count++;
-        tempHtml += `<li><span>${count}</span></li>`;
-      }
-      if (count >= selectedYear[firstDate.getMonth()]) {
-        break;
-      }
-    }
-    datesUL.html(tempHtml);
+    makeCalendar(now.getFullYear(), now.getMonth());
+    btnPrevMonth.on("click", function () {
+      currentNow = new Date(currentNow.getFullYear(), currentNow.getMonth() - 1);
+      makeCalendar(currentNow.getFullYear(), currentNow.getMonth());
+    });
+    btnNextMonth.on("click", function () {
+      currentNow = new Date(currentNow.getFullYear(), currentNow.getMonth() + 1);
+      makeCalendar(currentNow.getFullYear(), currentNow.getMonth());
+    });
 
     const ctx = document.querySelector("#coronaChart").getContext("2d");
     $.ajax({

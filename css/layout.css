@@ -94,6 +94,13 @@ a {
   position: relative;
   margin: 2px;
 }
+.calendar .days ul li.today span,
+.calendar .dates ul li.today span {
+  background-color: rgb(0, 118, 214);
+  font-weight: 700;
+  overflow: hidden;
+  text-shadow: 1px 1px 0px #00223d,2px 2px 0px #00223d,3px 3px 0px #00223d,4px 4px 0px #00223d,5px 5px 0px #00223d,6px 6px 0px #00223d,7px 7px 0px #00223d,8px 8px 0px #00223d,9px 9px 0px #00223d,10px 10px 0px #00223d,11px 11px 0px #00223d,12px 12px 0px #00223d,13px 13px 0px #00223d,14px 14px 0px #00223d,15px 15px 0px #00223d,16px 16px 0px #00223d,17px 17px 0px #00223d,18px 18px 0px #00223d,19px 19px 0px #00223d,20px 20px 0px #00223d;
+}
 .calendar .days ul li.blank span,
 .calendar .dates ul li.blank span {
   background-color: transparent;

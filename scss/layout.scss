@@ -104,6 +104,12 @@ a {
         width: calc(100% / 7 - 4px);
         position: relative;
         margin: 2px;
+        &.today span {
+          background-color: rgb(0, 118, 214);
+          font-weight: 700;
+          overflow: hidden;
+          @include longShadow(darken(rgb(0, 118, 214), 30));
+        }
         &.blank span {
           background-color: transparent;
           pointer-events: none;
