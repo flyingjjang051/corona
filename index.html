@@ -95,9 +95,9 @@
         } else {
           count++;
           if (now.getFullYear() === firstDate.getFullYear() && now.getMonth() === firstDate.getMonth() && now.getDate() === count) {
-            tempHtml += `<li class="today"><span>${count}</span></li>`;
+            tempHtml += `<li class="today" data-year="${firstDate.getFullYear()}" data-month="${firstDate.getMonth() + 1}" data-date="${count}"><span>${count}</span></li>`;
           } else {
-            tempHtml += `<li><span>${count}</span></li>`;
+            tempHtml += `<li data-year="${firstDate.getFullYear()}" data-month="${firstDate.getMonth() + 1}" data-date="${count}"><span>${count}</span></li>`;
           }
         }
         if (count >= selectedYear[firstDate.getMonth()]) {
@@ -117,64 +117,82 @@
       currentNow = new Date(currentNow.getFullYear(), currentNow.getMonth() + 1);
       makeCalendar(currentNow.getFullYear(), currentNow.getMonth());
     });
+    $(".calendar").on("click", ".dates li", function () {
+      console.log(typeof $(this).data("month"));
+      const selectedDate = $(this).data("year") + addZero($(this).data("month")) + addZero($(this).data("date"));
+      console.log(selectedDate);
+      loadCorona(selectedDate);
+    });
 
     const ctx = document.querySelector("#coronaChart").getContext("2d");
-    $.ajax({
-      url: "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson",
-      data: {
-        ServiceKey: "oCofLR08owUixq82kUyXp6Ts1jg3/+AqNlpJYlvQrmfHjuiMhQzY+XueXxwUiNfRe6tjN29GwTvy7Y+yymi1vg==",
-        _type: "json",
-        startCreateDt: "20220115",
-        endCreateDt: "20220115",
-      },
-    }).done(function (response) {
-      console.log(response.response.body.items.item);
-      const coronaList = response.response.body.items.item;
-      const sidoList = [];
-      const incDecList = [];
-      $.each(coronaList, function (idx, item) {
-        sidoList.push(item.gubun);
-        incDecList.push(item.incDec);
-      });
-      console.log(sidoList);
-      console.log(incDecList);
-      const coronaChart = new Chart(ctx, {
-        type: "bar",
+    let coronaChart = null;
+    const loadCorona = function (selectDay) {
+      $.ajax({
+        url: "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson",
         data: {
-          labels: sidoList,
-          datasets: [
-            {
-              label: "corona",
-              data: incDecList,
-              backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(255, 206, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(255, 159, 64, 0.2)"],
-              borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 159, 64, 1)"],
-              borderWidth: 1,
-            },
-          ],
+          ServiceKey: "BmCyxfjFy8xXU8aMTUBRo5eJ2ZmH1aKtsDIATEsoe4WzqxB8yawE9nb4pDrseEpBjmj/40qiifJ9ppG9TpqP9A==",
+          _type: "json",
+          startCreateDt: selectDay,
+          endCreateDt: selectDay,
         },
-        options: {
-          plugins: {
-            legend: {
-              display: false,
-            },
-            title: {
-              display: false,
-              text: "CORONA 발생현황",
-              color: "#fff",
-              font: {
-                family: "궁서",
-                size: 18,
+      }).done(function (response) {
+        console.log(response.response.body.items.item);
+        const coronaList = response.response.body.items.item;
+        const sidoList = [];
+        const incDecList = [];
+        $.each(coronaList, function (idx, item) {
+          sidoList.push(item.gubun);
+          incDecList.push(item.incDec);
+        });
+        console.log(sidoList);
+        console.log(incDecList);
+        if (coronaChart !== null) {
+          coronaChart.destroy();
+        }
+        coronaChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: sidoList,
+            datasets: [
+              {
+                label: "corona",
+                data: incDecList,
+                backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(255, 206, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(255, 159, 64, 0.2)"],
+                borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 159, 64, 1)"],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: false,
+              },
+              title: {
+                display: false,
+                text: "CORONA 발생현황",
                 color: "#fff",
+                font: {
+                  family: "궁서",
+                  size: 18,
+                  color: "#fff",
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
               },
             },
           },
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
+        });
       });
-    });
+    };
+
+    const addZero = function (num) {
+      return num < 10 ? "0" + num : "" + num;
+    };
+    //console.log(addZero("9"));
+    //loadCorona(now.getFullYear() + addZero(now.getMonth() + 1) + addZero(now.getDate()));
   </script>
 </html>

@@ -127,3 +127,6 @@ a {
   color: #fff;
   line-height: 1.25;
 }
+.calendar .dates li {
+  cursor: pointer;
+}

@@ -4,8 +4,6 @@
 // sass list  (a.k.a js array)
 $colors: (rgb(228, 121, 0), rgb(26, 224, 0), rgb(5, 147, 212), rgb(156, 6, 216), rgb(206, 24, 39), rgb(138, 51, 1));
 
-html {
-}
 body {
   font-family: "Roboto", "Noto Sans KR", sans-serif;
   font-size: 16px;
@@ -135,5 +133,8 @@ a {
         }
       }
     }
+  }
+  .dates li {
+    cursor: pointer;
   }
 }
